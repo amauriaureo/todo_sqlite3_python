@@ -30,16 +30,21 @@ def update_category_function():
     connection = sqlite3.connect('../todo.sqlite3')
     cursor = connection.cursor()
 
-    category_id = input("Enter the ID of the category you want to update: ")
+    def execute():
+        category_id = input("Enter the ID of the category you want to update(0 to exit): ")
+        if category_id == "0":
+            print("Leaving the system... See you soon! :)")
+        else:
+            name = input("Enter the new category name: ")
+            print("Category update successfully!")
 
-    name = input("Enter the new category name: ")
-    print("Category update successfully!")
+            sql = 'update category set name = ? where id = ?'
+            values = [name, category_id]
+            cursor.execute(sql, values)
+            connection.commit()
+            connection.close()
 
-    sql = 'update category set name = ? where id = ?'
-    values = [name, category_id]
-    cursor.execute(sql, values)
-    connection.commit()
-    connection.close()
+    execute()
 
 
 def delete_category_function():
